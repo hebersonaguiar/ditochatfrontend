@@ -5,4 +5,4 @@ cd /app &
 /usr/bin/npm audit fix &
 /usr/bin/npm audit fix --force &
 
-usr/bin/npm start 
+/usr/bin/npm start 
