@@ -15,10 +15,13 @@ COPY package.json /app/package.json
 RUN npm install --silent && \
     npm audit fix && \
     npm audit fix --force && \
-    npm install && \
-    npm run build
+    npm install
 
 COPY . ./
+
+run npm run build
+
+
 
 EXPOSE 3000
 
