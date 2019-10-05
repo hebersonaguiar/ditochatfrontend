@@ -1,5 +1,5 @@
 # base image
-FROM node:12.2.0-alpine
+FROM node:10.16.3
 
 ENV REACT_APP_BACKEND_WS='ws://172.16.0.4:8080'
 ENV REACT_APP_BACKEND_URL='http://172.16.0.4:8080'
@@ -19,9 +19,7 @@ RUN npm install --silent && \
 
 COPY . ./
 
-run npm run build
-
-
+RUN npm run build
 
 EXPOSE 3000
 
