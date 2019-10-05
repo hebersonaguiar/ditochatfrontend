@@ -1,8 +1,8 @@
 # base image
 FROM node:12.2.0-alpine
 
-ENV REACT_APP_BACKEND_WS='ws://localhost:8080'
-ENV REACT_APP_BACKEND_URL='http://localhost:8080'
+ENV REACT_APP_BACKEND_WS='ws://172.16.0.4:8080'
+ENV REACT_APP_BACKEND_URL='http://172.16.0.4:8080'
 
 # set working directory
 WORKDIR /app
