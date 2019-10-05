@@ -15,7 +15,8 @@ COPY package.json /app/package.json
 RUN npm install --silent && \
     npm audit fix && \
     npm audit fix --force && \
-    npm install    
+    npm install && \
+    npm run build
 
 COPY . ./
 
