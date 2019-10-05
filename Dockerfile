@@ -17,7 +17,7 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json /app/package.json
 COPY package-lock.json /app/package-lock.json
 
-RUN npm install react@16.8.1 react-chat-elements@10.2.0 react-dom@6.8.1 react-router-dom@4.3.1 typescript react-scripts@2.1.5 \
+RUN npm install react@16.8.1 react-chat-elements@10.2.0 react-dom@6.8.1 react-router-dom@4.3.1 typescript react-scripts@2.1.5 && \
     npm audit fix && \
     npm audit fix --force
     
