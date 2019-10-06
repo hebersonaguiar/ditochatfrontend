@@ -13,15 +13,10 @@ help() {
 if [ ! -z "$REACT_APP_BACKEND_WS_URL" ] ; then
 
       dig +short $REACT_APP_BACKEND_WS_URL > /app/ipbackend
-
-      export IP_BACKEND=$(cat /app/ipbackend)
       
-      export REACT_APP_BACKEND_WS=ws://$IP_BACKEND:8080
-      export REACT_APP_BACKEND_URL=http://$IP_BACKEND:8080
-      
-      #echo "export REACT_APP_BACKEND_WS='ws://$REACT_APP_BACKEND_WS:8080'" >> ~/.bash_profile
-      #echo "export REACT_APP_BACKEND_URL='http://$REACT_APP_BACKEND_URL:8080'" >> ~/.bash_profile
-      #source ~/.bash_profile
+      echo "export REACT_APP_BACKEND_WS='ws://$(cat /app/ipbackend):8080'" >> ~/.bash_profile
+      echo "export REACT_APP_BACKEND_URL='http://$(cat /app/ipbackend):8080'" >> ~/.bash_profile
+      source ~/.bash_profile
       
       #cd /app
       #/usr/bin/npm install react@16.8.1 react-chat-elements@10.2.0 react-dom@16.8.1 react-router-dom@4.3.1 typescript react-scripts@2.1.5 
