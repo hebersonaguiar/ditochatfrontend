@@ -10,12 +10,14 @@ class Chat extends Component {
       messages: []
     };
 
-    this.ws = new WebSocket(`${process.env.REACT_APP_BACKEND_WS}/ws`);
+    //this.ws = new WebSocket(`${process.env.REACT_APP_BACKEND_WS}/ws`);
+    this.ws = new WebSocket('ws://IPADDRESS/ws');
     this.user = props.auth.user;
   }
 
   componentDidMount() {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/messages`)
+//     fetch(`${process.env.REACT_APP_BACKEND_URL}/messages`)
+    fetch('http://IPADDRESS/messages')
       .then(response => response.json())
       .then(messages => messages.map(message => this.formatMessage(message)))
       .then(messages => messages.reverse())
