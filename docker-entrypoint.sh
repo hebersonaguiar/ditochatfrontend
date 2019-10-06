@@ -12,11 +12,12 @@ help() {
 
 if [ ! -z "$REACT_APP_BACKEND_WS_URL" ] ; then
 
-      REACT_BACKEND_WS=$(dig +short $REACT_APP_BACKEND_WS_URL)
-      REACT_BACKEND_URL=$(dig +short $REACT_APP_BACKEND_WS_URL)
+      dig +short $REACT_APP_BACKEND_WS_URL > /app/ipbackend
+
+      IP_BACKEND=$(cat /app/ipbackend)
       
-      export REACT_APP_BACKEND_WS='ws://$REACT_BACKEND_WS:8080'
-      export REACT_APP_BACKEND_URL='http://$REACT_BACKEND_URL:8080'
+      export REACT_APP_BACKEND_WS=ws://$IP_BACKEND:8080
+      export REACT_APP_BACKEND_URL=http://$IP_BACKEND:8080
       
       #echo "export REACT_APP_BACKEND_WS='ws://$REACT_APP_BACKEND_WS:8080'" >> ~/.bash_profile
       #echo "export REACT_APP_BACKEND_URL='http://$REACT_APP_BACKEND_URL:8080'" >> ~/.bash_profile
