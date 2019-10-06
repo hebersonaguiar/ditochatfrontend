@@ -12,7 +12,7 @@ help() {
     exit 1
 }
 
-if [ ! -z "$ALLOWED_ORIGIN" ] || [ ! -z "$REDIS_ADDR" ] ; then
+if [ ! -z "$REACT_APP_BACKEND_WS" ] || [ ! -z "$REACT_APP_BACKEND_URL" ] ; then
 
       echo "export REACT_APP_BACKEND_WS='$REACT_APP_BACKEND_WS'" >> ~/.bash_profile
       echo "export REACT_APP_BACKEND_URL='$REACT_APP_BACKEND_URL'" >> ~/.bash_profile
