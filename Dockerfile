@@ -24,6 +24,8 @@ RUN npm audit fix --force
 COPY docker-entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh  
 
+RUN yum -y install bind-utils
+
 COPY . ./
 
 ENTRYPOINT ["/entrypoint.sh"]
