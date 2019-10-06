@@ -14,7 +14,7 @@ if [ ! -z "$REACT_APP_BACKEND_WS_URL" ] ; then
 
       dig +short $REACT_APP_BACKEND_WS_URL > /app/ipbackend
 
-      IP_BACKEND=$(cat /app/ipbackend)
+      export IP_BACKEND=$(cat /app/ipbackend)
       
       export REACT_APP_BACKEND_WS=ws://$IP_BACKEND:8080
       export REACT_APP_BACKEND_URL=http://$IP_BACKEND:8080
