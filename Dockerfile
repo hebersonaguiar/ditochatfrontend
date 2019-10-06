@@ -27,7 +27,6 @@ RUN chmod +x /entrypoint.sh
 RUN yum -y install bind-utils
 
 COPY . ./
-COPY env.sh /etc/profile.d/env.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
 
