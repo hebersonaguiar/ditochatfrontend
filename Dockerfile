@@ -7,8 +7,8 @@ RUN  curl -sL https://rpm.nodesource.com/setup_10.x |  bash -
 
 RUN yum -y install nodejs
 
-ENV REACT_APP_BACKEND_WS='ws://192.168.0.18:8080'
-ENV REACT_APP_BACKEND_URL='http://192.168.0.18:8080'
+#ENV REACT_APP_BACKEND_WS='ws://192.168.0.18:8080'
+#ENV REACT_APP_BACKEND_URL='http://192.168.0.18:8080'
 
 WORKDIR /app
 
