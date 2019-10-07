@@ -30,6 +30,6 @@ COPY . ./
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-EXPOSE 3000
+EXPOSE 3000 3001
 
 CMD ["/bin/bash"]
