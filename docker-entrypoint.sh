@@ -12,11 +12,11 @@ help() {
 
 if [ ! -z "$REACT_APP_BACKEND_WS_URL" ] ; then
 
-      dig +short $REACT_APP_BACKEND_WS_URL > /app/IPBACKEND
+      # dig +short $REACT_APP_BACKEND_WS_URL > /app/IPBACKEND
       
-      IPADDRESS=$(cat /app/IPBACKEND)
+      # IPADDRESS=$(cat /app/IPBACKEND)
       
-      sed -i "s/IPADDRESS/$IPADDRESS/g" /app/src/Chat.js
+      sed -i "s/IPADDRESS/$REACT_APP_BACKEND_WS_URL/g" /app/src/Chat.js
       
       #echo "export REACT_APP_BACKEND_WS='ws://$(cat /app/ipbackend):8080'" >> /etc/profile.d/env.sh
       #echo "export REACT_APP_BACKEND_URL='http://$(cat /app/ipbackend):8080'" >> /etc/profile.d/env.sh
