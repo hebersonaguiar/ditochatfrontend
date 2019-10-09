@@ -1,75 +1,101 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+App frontend desenvolvida em React que se conecta com o backend do repositório [https://github.com/hebersonaguiar/ditochatbackend](https://github.com/hebersonaguiar/ditochatbackend), no qual é o repossável por servir ao usuário final uma interface amigável de envio de mensagens, basta informar o nome ou não e começar a enviar as mensagens.
 
-## Environment Variables
+## Docker
+O Docker é uma plataforma para desenvolvedores e administradores de sistemas para desenvolver, enviar e executar aplicativos. O Docker permite montar aplicativos rapidamente a partir de componentes e elimina o atrito que pode ocorrer no envio do código. O Docker permite que seu código seja testado e implantado na produção o mais rápido possível.
+Originalmente essa aplicação não foi desenvolvida para docker, porém sua criação é simples e rápido. 
 
-You must setup these env vars to correctly build and run the frontend:
+## Dockerfile
+No Dockerfile encontra-se todas as informações para a criação da imagem, para esse projeto foi utilizado como base a imagem `hebersonaguiar/nodebase:1.0`, mais abaixo é copiado código da aplicação, e iniciado o react utilizando `npm start`.
 
-- `REACT_APP_BACKEND_WS`: backend websocket endpoint. Ex: ws://localhost:8080
-- `REACT_APP_BACKEND_URL`: backend http endpoint. Ex: http://localhost:8080
+## Entrypoint
+No Docekrfile é copiado um arquivo chamado docker-entrypoint.sh no qual é um ShellScript que recebe um parâmentro necessário para execução da aplicação:
+- `REACT_APP_BACKEND_WS_URL`: resposável por enviar as mensagens para o backend. Ex: `http://localhost:8080`
 
-## Available Scripts
+A variável substitui duas variáveis do projeto inicial, que são `REACT_APP_BACKEND_WS` e `REACT_APP_BACKEND_URL` que apontam para o mesmo bcakend, mudando apenas o tipo de comunicação onde um utiliza WS e o outro HTTP. 
 
-In the project directory, you can run:
+O docker-entrypoint.sh realiza uma checagem verificando se o valor informado foi passado corretamente, se sim as variáveis são alteradas no arquivo `src/Chat.js`, se não o contêiner não inicializa informando um log de como inicializar o contêiner.
 
-### `npm start`
+## Build da imagem
+```bash
+git clone https://github.com/hebersonaguiar/ditochafrontend.git
+docker build -t hebersonaguiar/ditochafrontend ./ditochafrontend
+```
+## Push da imagem
+```bash
+docker push hebersonaguiar/ditochafrontend:latest
+```
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Uso da imagem
+```bash
+docker run docker run -dti -e REACT_APP_BACKEND_WS_URL='http://localhost:3000' hebersonaguiar/ditochafrontend
+```
+* Importante: para o pleno funcionamento da aplicação é necessário o apontamento do serviço do backend na porta 8080.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## Google Cloud Plataform
+Google Cloud Platform é uma suíte de cloud oferecida pelo Google, funcionando na mesma infraestrutura que a empresa usa para seus produtos dirigidos aos usuários, dentre eles o Buscador Google e o Youtube.
 
-### `npm test`
+Para essa aplicação foram utilizados os seguintes produtos, Cloud DNS, utilizado para o apontamento DNS do domínio `ditochallenge.com` para o serviço do kubernetes e também foi utilizado o Kubernetes Engine, no qual foi criado um cluster kubernetes. Todas as informações de como criar o cluster e acessar utilizando o gcloud e kubectl estão no repositório [Dito Desafio Docs](https://github.com/hebersonaguiar/ditodesafiodocs.git)
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Jenkins X
+O Jenkins X possui os conceitos de Aplicativos e Ambientes. Você não instala o Jenkins diretamente para usar o Jenkins X, pois o Jenkins é incorporado como um mecanismo de pipeline como parte da instalação.
 
-### `npm run build`
+Após a criação do cluster kubernetes na GCP utilizando o Jenkins X como informado no repositório [Dito Desafio Docs](https://github.com/hebersonaguiar/ditodesafiodocs.git) é necessário importar esse repositório para isso foi utilizado o comando abaixo:
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+jx import --url https://github.com/hebersonaguiar/ditochatfrontend.git
+```
+Ao importar esse repositório o Jenkins X se encarrega de criar os artefatos como Jenkinsfile, chart e o skaffold. Após a importação as alterações de vairávies desejadas podem ser realizadas. Lembrando que após o commit das alterações o deploy é iniciado.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+Caso não queria que o Jenkins X não crie os artefatos basta executar o comando abaixo:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+jx import --no-draft --url https://github.com/hebersonaguiar/ditochatfrontend.git
+```
 
-### `npm run eject`
+## Kubernetes
+Kubernetes ou como é conhecido também K8s é um produto Open Source utilizado para automatizar a implantação, o dimensionamento e o gerenciamento de aplicativos em contêiner no qual agrupa contêineres que compõem uma aplicação em unidades lógicas para facilitar o gerenciamento e a descoberta de serviço.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Para essa aplicação foi utilizado o kubernetes na versão `v1.13.7-gke.24`, na Google Cloud Plataform - GCP utilizando o Google Kubernetes Engine, ou seja, a criação do cluster é realizado pela próprio GCP, nesse caso utilizamos também o Jenkins X para a criação do cluster e integração entre Jnekins X e Kubernetes. Dados de criação do cluster e acessos estão no repositório [Dito Desafio Docs](https://github.com/hebersonaguiar/ditodesafiodocs.git)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Para essa aplicação foi utilizado o ConfigMap do kubernetes, que de forma simples é um conjunto de pares de chave-valor pra armazenamento de configurações, que fica armazenado dentro de arquivos que podem ser consumidos através de pods ou controllers, o configmap criado foi:
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```bash
+kubectl create namespace chatdito
 
-## Learn More
+kubectl create configmap chat-frontend-values \
+		--from-literal REACT_APP_BACKEND_WS_URL='http://backend.ditochallenge.com:8080' \
+		--namespace chatdito
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+* Importante: Para esse repositório foi criado um namespace específco, caso já exista algum a criação do mesmo não é necessária, atente-se apenas em criar o configmap no namespace correto. O valor da variável `REACT_APP_BACKEND_WS_URL`  é um DNS válido do domínio `ditochallenge.com` e para o pleno funcionamento da aplicação é necessário o apontamento do serviço do backend na porta 8080.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Helm Chart
+O Helm é um gerenciador de aplicações Kubernetes cria, versiona, compartilha e publica os artefatos. Com ele é possível desenvolver templates dos arquivos YAML e durante a instalaçao de cada aplicação persnalizar os parâmentros com facilidade.
+Para esse repositório o Helm Chart esta dentro da pasta chart na raiz do projeto e dentro contém os arquivos do Chart, na implantação do projeto o arquivo `values.yaml` deve ser alterado alguns parâmentros como, quantidade de replicas, portas de serviço, resources e outros dados necessários para implantação no kuberntes.
 
-### Code Splitting
+Parametros alerados para essa aplicação em `chart/values.yaml`:
+```yaml
+...
+service:
+  name: frontend
+  type: LoadBalancer
+  externalPort: 3000
+  internalPort: 3000
+...
+```
+* Importante:
+No arquivo `chart/template/deployment.yaml` possui a variável `REACT_APP_BACKEND_WS_URL`  que foi informadas no tópico [Entrypoint](https://github.com/hebersonaguiar/ditochatbackend#entrypoint). Para que ela seja informada para o contêiner no cluster kubernetes foi criado um [configmap](https://github.com/hebersonaguiar/ditochatbackend#kubernetes) no Kubernetes com o nome `chat-frontend-values`, sua execução foi informada anteriormente no topico Kubernetes.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
 
-### Analyzing the Bundle Size
+## Jenkinsfile
+O Jenkisfile é um arquivo de configuração utilizado para criação de papeline no Jenkins, ele suporta três formatos diferentes: Scripted, Declarative e Groovy. 
+Para esse repositório ele foi criado na instlação do Jenkins X no cluster Kubernetes descrito no repositório [Dito Desafio Docs](https://github.com/hebersonaguiar/ditodesafiodocs.git), nele possuem alguns estágios 
+* Build e Push da imagem
+* Alteração do Chart e push para o Chart Museum
+* Promoção para o ambiente de produção Kubernetes
+O acionamento do deploy é executado após a execução de um commit, uma vez acionado o Jenkins X executa o Jenkinsfile e o deploy da aplicação é realizada.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## Skaffold
+Skaffold é uma ferramenta de linha de comando que facilita o desenvolvimento contínuo de aplicações no Kubernetes. O Skaffold lida com o fluxo de trabalho para implantar a aplicação.
+No arquivo skaffold.yaml possuem as variáveis como a do registry, imagem, tag, helm chart, não é necessário nehnhuma alteração, elas são realizadas pelo Jenkins X
