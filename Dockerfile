@@ -1,11 +1,13 @@
-FROM centos:7
+FROM hebersonaguiar/nodebase:1.0
 
-RUN yum -y update && \
+#FROM centos:7
+
+#RUN yum -y update && \
     yum -y install gcc c++ make curl
 
-RUN  curl -sL https://rpm.nodesource.com/setup_10.x |  bash -
+#RUN  curl -sL https://rpm.nodesource.com/setup_10.x |  bash -
 
-RUN yum -y install nodejs
+#RUN yum -y install nodejs
 
 #ENV REACT_APP_BACKEND_WS='ws://192.168.0.18:8080'
 #ENV REACT_APP_BACKEND_URL='http://192.168.0.18:8080'
@@ -24,12 +26,12 @@ COPY package-lock.json /app/package-lock.json
 COPY docker-entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh  
 
-RUN yum -y install bind-utils
+#RUN yum -y install bind-utils
 
 COPY . ./
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-EXPOSE 3000 3001
+EXPOSE 3000
 
-CMD ["/bin/bash"]
+CMD ["npm", "start"]
