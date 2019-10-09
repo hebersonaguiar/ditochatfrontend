@@ -16,6 +16,8 @@ docker exec -dti nodebase /bin/bash
 	# yum -y install gcc c++ make curl bind-utils
 	# curl -sL https://rpm.nodesource.com/setup_10.x |  bash -
 	# yum -y install nodejs
+	# mdkir /app
+	# cd /app
 	# npm install react@16.8.1 react-chat-elements@10.2.0 react-dom@16.8.1 react-router-dom@4.3.1 typescript react-scripts@2.1.5
 	# npm audit fix
 	# npm audit fix --force
