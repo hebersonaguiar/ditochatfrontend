@@ -8,8 +8,8 @@ Originalmente essa aplicação não foi desenvolvida para docker, porém sua cri
 No Dockerfile encontra-se todas as informações para a criação da imagem, para esse projeto foi utilizado como base a imagem `hebersonaguiar/nodebase:1.0`, mais abaixo é copiado código da aplicação, e iniciado o react utilizando `npm start`.
 
 ## Entrypoint
-No Docekrfile é copiado um arquivo chamado docker-entrypoint.sh no qual é um ShellScript que recebe um parâmentro necessário para execução da aplicação:
-- `REACT_APP_BACKEND_WS_URL`: resposável por enviar as mensagens para o backend. Ex: `http://localhost:8080`
+No Docekerfile é copiado um arquivo chamado docker-entrypoint.sh no qual é um ShellScript que recebe um parâmentro necessário para execução da aplicação:
+- `REACT_APP_BACKEND_WS_URL`: resposável por enviar as mensagens para o backend. Ex: `localhost`
 
 A variável substitui duas variáveis do projeto inicial, que são `REACT_APP_BACKEND_WS` e `REACT_APP_BACKEND_URL` que apontam para o mesmo bcakend, mudando apenas o tipo de comunicação onde um utiliza WS e o outro HTTP. 
 
@@ -27,9 +27,10 @@ docker push hebersonaguiar/ditochafrontend:latest
 
 ## Uso da imagem
 ```bash
-docker run docker run -dti -e REACT_APP_BACKEND_WS_URL='http://localhost:3000' hebersonaguiar/ditochafrontend
+docker run docker run -dti -e REACT_APP_BACKEND_WS_URL='backend.ditochallenge.com' \
+	   hebersonaguiar/ditochafrontend
 ```
-* Importante: para o pleno funcionamento da aplicação é necessário o apontamento do serviço do backend na porta 8080.
+* Importante: para o pleno funcionamento da aplicação é necessário o apontamento do serviço do backend.
 
 ## Google Cloud Plataform
 Google Cloud Platform é uma suíte de cloud oferecida pelo Google, funcionando na mesma infraestrutura que a empresa usa para seus produtos dirigidos aos usuários, dentre eles o Buscador Google e o Youtube.
@@ -64,11 +65,11 @@ Para essa aplicação foi utilizado o ConfigMap do kubernetes, que de forma simp
 kubectl create namespace chatdito
 
 kubectl create configmap chat-frontend-values \
-		--from-literal REACT_APP_BACKEND_WS_URL='http://backend.ditochallenge.com:8080' \
+		--from-literal REACT_APP_BACKEND_WS_URL='backend.ditochallenge.com' \
 		--namespace chatdito
 ```
 
-* Importante: Para esse repositório foi criado um namespace específco, caso já exista algum a criação do mesmo não é necessária, atente-se apenas em criar o configmap no namespace correto. O valor da variável `REACT_APP_BACKEND_WS_URL`  é um DNS válido do domínio `ditochallenge.com` e para o pleno funcionamento da aplicação é necessário o apontamento do serviço do backend na porta 8080.
+* Importante: Para esse repositório foi criado um namespace específco, caso já exista algum a criação do mesmo não é necessária, atente-se apenas em criar o configmap no namespace correto. O valor da variável `REACT_APP_BACKEND_WS_URL`  é um DNS válido do domínio `ditochallenge.com` e para o pleno funcionamento da aplicação é necessário o apontamento do serviço do backend na porta.
 
 ## Helm Chart
 O Helm é um gerenciador de aplicações Kubernetes cria, versiona, compartilha e publica os artefatos. Com ele é possível desenvolver templates dos arquivos YAML e durante a instalaçao de cada aplicação personalizar os parâmentros com facilidade.
@@ -85,7 +86,7 @@ service:
 ...
 ```
 * Importante:
-No arquivo `chart/template/deployment.yaml` possui a variável `REACT_APP_BACKEND_WS_URL`  que foi informadas no tópico [Entrypoint](https://github.com/hebersonaguiar/ditochatbackend#entrypoint). Para que ela seja informada para o contêiner no cluster kubernetes foi criado um [configmap](https://github.com/hebersonaguiar/ditochatfrontend#kubernetes) no Kubernetes com o nome `chat-frontend-values`, sua execução foi informada anteriormente no topico [Kubernetes](https://github.com/hebersonaguiar/ditochatfrontend#kubernetes).
+No arquivo `chart/template/deployment.yaml` possui a variável `REACT_APP_BACKEND_WS_URL`  que foi informadas no tópico [Entrypoint](https://github.com/hebersonaguiar/ditochatbackend#entrypoint). Para que ela seja informada para o contêiner no cluster kubernetes foi criado um [configmap](https://github.com/hebersonaguiar/ditochatfrontend#kubernetes) no Kubernetes com o nome `chat-frontend-values`, sua execução foi informada anteriormente no tópico [Kubernetes](https://github.com/hebersonaguiar/ditochatfrontend#kubernetes).
 
 
 ## Jenkinsfile
