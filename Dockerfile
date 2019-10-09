@@ -3,7 +3,7 @@ FROM hebersonaguiar/nodebase:1.0
 #FROM centos:7
 
 #RUN yum -y update && \
-    yum -y install gcc c++ make curl
+#    yum -y install gcc c++ make curl
 
 #RUN  curl -sL https://rpm.nodesource.com/setup_10.x |  bash -
 
