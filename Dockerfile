@@ -28,7 +28,8 @@ RUN chmod +x /entrypoint.sh
 
 #RUN yum -y install bind-utils
 
-COPY . ./
+COPY public /app/public
+COPY sex /app/src
 
 ENTRYPOINT ["/entrypoint.sh"]
 
