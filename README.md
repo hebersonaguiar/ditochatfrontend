@@ -1,5 +1,7 @@
 App frontend desenvolvida em React que se conecta com o backend do repositório [https://github.com/hebersonaguiar/ditochatbackend](https://github.com/hebersonaguiar/ditochatbackend), no qual é o repossável por servir ao usuário final uma interface amigável de envio de mensagens, basta informar o nome ou não e começar a enviar as mensagens.
 
+Repositório base https://github.com/ditointernet/dito-chat/tree/master/frontend
+
 ## Docker
 O Docker é uma plataforma para desenvolvedores e administradores de sistemas para desenvolver, enviar e executar aplicativos. O Docker permite montar aplicativos rapidamente a partir de componentes e elimina o atrito que pode ocorrer no envio do código. O Docker permite que seu código seja testado e implantado na produção o mais rápido possível.
 Originalmente essa aplicação não foi desenvolvida para docker, porém sua criação é simples e rápido. 
