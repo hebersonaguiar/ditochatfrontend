@@ -4,6 +4,23 @@ App frontend desenvolvida em React que se conecta com o backend do repositório 
 O Docker é uma plataforma para desenvolvedores e administradores de sistemas para desenvolver, enviar e executar aplicativos. O Docker permite montar aplicativos rapidamente a partir de componentes e elimina o atrito que pode ocorrer no envio do código. O Docker permite que seu código seja testado e implantado na produção o mais rápido possível.
 Originalmente essa aplicação não foi desenvolvida para docker, porém sua criação é simples e rápido. 
 
+* Importante: no decorrer da criação de uma imagem para essa aplicação foi notado que a instalação dos pacotes nodes necessários dava problema, ou seja, ao verificar os pacotes muitos estavam faltando e com isso impactando no correto funcionamento da aplicação. Devido isso foi realizado a criação de uma imagem manual, ou seja sem utilizar o Dockerfile, segue abaixo os comandos utilizados:
+
+```bash
+docker run -dti --name nodebase -h nodebase centos:7 
+docker exec -dti nodebase /bin/bash
+	# yum -y update
+	# yum -y install gcc c++ make curl bind-utils
+	# curl -sL https://rpm.nodesource.com/setup_10.x |  bash -
+	# yum -y install nodejs
+	# npm install react@16.8.1 react-chat-elements@10.2.0 react-dom@16.8.1 react-router-dom@4.3.1 typescript react-scripts@2.1.5
+	# npm audit fix
+	# npm audit fix --force
+
+docker commit <id_do_container> hebersonaguiar/nodebase:1.0
+docker push hebersonaguiar/nodebase:1.0
+```
+
 ## Dockerfile
 No Dockerfile encontra-se todas as informações para a criação da imagem, para esse projeto foi utilizado como base a imagem `hebersonaguiar/nodebase:1.0`, mais abaixo é copiado código da aplicação, e iniciado o react utilizando `npm start`.
 
