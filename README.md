@@ -7,7 +7,7 @@ Originalmente essa aplicação não foi desenvolvida para docker, porém sua cri
 ## Dockerfile
 No Dockerfile encontra-se todas as informações para a criação da imagem, para esse projeto foi utilizado como base a imagem `hebersonaguiar/nodebase:1.0`, mais abaixo é copiado código da aplicação, e iniciado o react utilizando `npm start`.
 
-* Importante: no decorrer da criação de uma imagem para essa aplicação utilizando Dockerfile foi notado que a instalação dos pacotes nodes necessários ocorria alguns problemas, que ao verificar os pacotes muitos estavam faltando e com isso impactando no correto funcionamento da aplicação. Devido isso foi realizado a criação de uma imagem manual, ou seja sem utilizar o Dockerfile, segue abaixo os comandos utilizados:
+* Importante: no decorrer da criação de uma imagem para essa aplicação utilizando Dockerfile foi notado que a instalação dos pacotes nodes necessários ocorria alguns problemas, que ao verificar os pacotes muitos estavam faltando e com isso impactando no correto funcionamento da aplicação. Devido isso foi realizado a criação de uma imagem de forma manual, ou seja, sem utilizar o Dockerfile, segue abaixo os comandos utilizados:
 
 ```bash
 docker run -dti --name nodebase -h nodebase centos:7 
