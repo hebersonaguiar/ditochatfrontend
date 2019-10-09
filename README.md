@@ -71,10 +71,10 @@ kubectl create configmap chat-frontend-values \
 * Importante: Para esse repositório foi criado um namespace específco, caso já exista algum a criação do mesmo não é necessária, atente-se apenas em criar o configmap no namespace correto. O valor da variável `REACT_APP_BACKEND_WS_URL`  é um DNS válido do domínio `ditochallenge.com` e para o pleno funcionamento da aplicação é necessário o apontamento do serviço do backend na porta 8080.
 
 ## Helm Chart
-O Helm é um gerenciador de aplicações Kubernetes cria, versiona, compartilha e publica os artefatos. Com ele é possível desenvolver templates dos arquivos YAML e durante a instalaçao de cada aplicação persnalizar os parâmentros com facilidade.
-Para esse repositório o Helm Chart esta dentro da pasta chart na raiz do projeto e dentro contém os arquivos do Chart, na implantação do projeto o arquivo `values.yaml` deve ser alterado alguns parâmentros como, quantidade de replicas, portas de serviço, resources e outros dados necessários para implantação no kuberntes.
+O Helm é um gerenciador de aplicações Kubernetes cria, versiona, compartilha e publica os artefatos. Com ele é possível desenvolver templates dos arquivos YAML e durante a instalaçao de cada aplicação personalizar os parâmentros com facilidade.
+Para esse repositório o Helm Chart esta dentro da pasta chart na raiz do projeto e dentro contém os arquivos do Chart. Após implantação do projeto descrito no tópico [Jenkins X](https://github.com/hebersonaguiar/ditochatfrontend#jenkins-x) o arquivo `values.yaml` deve ser alterado alguns parâmentros como, quantidade de replicas, portas de serviço, resources e outros dados necessários para implantação no kuberntes.
 
-Parametros alerados para essa aplicação em `chart/values.yaml`:
+Parametros alterados para essa aplicação em `chart/values.yaml`:
 ```yaml
 ...
 service:
@@ -85,7 +85,7 @@ service:
 ...
 ```
 * Importante:
-No arquivo `chart/template/deployment.yaml` possui a variável `REACT_APP_BACKEND_WS_URL`  que foi informadas no tópico [Entrypoint](https://github.com/hebersonaguiar/ditochatbackend#entrypoint). Para que ela seja informada para o contêiner no cluster kubernetes foi criado um [configmap](https://github.com/hebersonaguiar/ditochatbackend#kubernetes) no Kubernetes com o nome `chat-frontend-values`, sua execução foi informada anteriormente no topico Kubernetes.
+No arquivo `chart/template/deployment.yaml` possui a variável `REACT_APP_BACKEND_WS_URL`  que foi informadas no tópico [Entrypoint](https://github.com/hebersonaguiar/ditochatbackend#entrypoint). Para que ela seja informada para o contêiner no cluster kubernetes foi criado um [configmap](https://github.com/hebersonaguiar/ditochatfrontend#kubernetes) no Kubernetes com o nome `chat-frontend-values`, sua execução foi informada anteriormente no topico [Kubernetes](https://github.com/hebersonaguiar/ditochatfrontend#kubernetes).
 
 
 ## Jenkinsfile
