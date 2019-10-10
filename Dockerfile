@@ -1,39 +1,34 @@
+# Imagem base, possui as instalações npm necessárias para a aplicação
 FROM hebersonaguiar/nodebase:1.0
 
-#FROM centos:7
+# Mantenedor da Imagem
+LABEL maintainer="Heberson Aguiar <hebersonaguiar@gmail.com>"
 
-#RUN yum -y update && \
-#    yum -y install gcc c++ make curl
-
-#RUN  curl -sL https://rpm.nodesource.com/setup_10.x |  bash -
-
-#RUN yum -y install nodejs
-
-#ENV REACT_APP_BACKEND_WS='ws://192.168.0.18:8080'
-#ENV REACT_APP_BACKEND_URL='http://192.168.0.18:8080'
-
+# Diretório padrão da imagem
 WORKDIR /app
 
+# Adiciona o node_modules ao PATH
 ENV PATH /app/node_modules/.bin:$PATH
 
+# Copia os arquivos de pacotes node
 COPY package.json /app/package.json
 COPY package-lock.json /app/package-lock.json
    
-#RUN npm install react@16.8.1 react-chat-elements@10.2.0 react-dom@16.8.1 react-router-dom@4.3.1 typescript react-scripts@2.1.5 
-#RUN npm audit fix
-#RUN npm audit fix --force
-
+#Copia o entrypoint, necessário para realizar a alteração das variáveis   
 COPY docker-entrypoint.sh /entrypoint.sh
+
+# Adiciona permissão de execução ao entrypoint
 RUN chmod +x /entrypoint.sh  
 
-#RUN yum -y install bind-utils
-
+# Copia os código fonte
 COPY public /app/public
 COPY src /app/src
 
-
+# Executa o entrypoit
 ENTRYPOINT ["/entrypoint.sh"]
 
+#Expondo a porta 3000    
 EXPOSE 3000
 
+# Inicia a aplicação com npm
 CMD ["npm", "start"]

@@ -2,6 +2,33 @@ App frontend desenvolvida em React que se conecta com o backend do repositório 
 
 Repositório base https://github.com/ditointernet/dito-chat/tree/master/frontend
 
+DNS utilizado para essa aplicação: `frontend.ditochallenge.com` 
+
+## Tópicos
+[Docker](https://github.com/hebersonaguiar/ditochatfrontend#docker)
+
+[Dockerfile](https://github.com/hebersonaguiar/ditochatfrontend#dockerfile)
+
+[Entrypoint](https://github.com/hebersonaguiar/ditochatfrontend#entrypoint)
+
+[Buil da imagem](https://github.com/hebersonaguiar/ditochatfrontend#build-da-imagem)
+
+[Push da imagem](https://github.com/hebersonaguiar/ditochatfrontend#push-da-imagem)
+
+[Uso da imagem](https://github.com/hebersonaguiar/ditochatfrontend#uso-da-imagem)
+
+[Google Cloud Plataform](https://github.com/hebersonaguiar/ditochatfrontend#google-cloud-plataform)
+
+[Jenkins X](https://github.com/hebersonaguiar/ditochatfrontend#jenkins-x)
+
+[Kubernetes Engine](https://github.com/hebersonaguiar/ditochatfrontend#kubernetes)
+
+[Helm Chart](https://github.com/hebersonaguiar/ditochatfrontend#helm-chart)
+
+[Jenkinsfile](https://github.com/hebersonaguiar/ditochatfrontend#jenkinsfile)
+
+[Skaffold](https://github.com/hebersonaguiar/ditochatfrontend#skaffold)
+
 ## Docker
 O Docker é uma plataforma para desenvolvedores e administradores de sistemas para desenvolver, enviar e executar aplicativos. O Docker permite montar aplicativos rapidamente a partir de componentes e elimina o atrito que pode ocorrer no envio do código. O Docker permite que seu código seja testado e implantado na produção o mais rápido possível.
 Originalmente essa aplicação não foi desenvolvida para docker, porém sua criação é simples e rápido. 
@@ -28,8 +55,8 @@ docker push hebersonaguiar/nodebase:1.0
 ```
 
 ## Entrypoint
-No Docekerfile é copiado um arquivo chamado docker-entrypoint.sh no qual é um ShellScript que recebe um parâmentro necessário para execução da aplicação:
-- `REACT_APP_BACKEND_WS_URL`: resposável por enviar as mensagens para o backend. Ex: `localhost`
+No Docekerfile é copiado um arquivo chamado docker-entrypoint.sh no qual é um Shell Script que recebe um parâmentro necessário para execução da aplicação:
+- `REACT_APP_BACKEND_WS_URL`: resposável por enviar as mensagens para o backend. Ex: `backend.ditochallenge.com`
 
 A variável substitui duas variáveis do projeto inicial, que são `REACT_APP_BACKEND_WS` e `REACT_APP_BACKEND_URL` que apontam para o mesmo bcakend, mudando apenas o tipo de comunicação onde um utiliza WS e o outro HTTP. 
 
@@ -55,12 +82,12 @@ docker run docker run -dti -e REACT_APP_BACKEND_WS_URL='backend.ditochallenge.co
 ## Google Cloud Plataform
 Google Cloud Platform é uma suíte de cloud oferecida pelo Google, funcionando na mesma infraestrutura que a empresa usa para seus produtos dirigidos aos usuários, dentre eles o Buscador Google e o Youtube.
 
-Para essa aplicação foram utilizados os seguintes produtos, Cloud DNS, utilizado para o apontamento DNS do domínio `ditochallenge.com` para o serviço do kubernetes e também foi utilizado o Kubernetes Engine, no qual foi criado um cluster kubernetes. Todas as informações de como criar o cluster e acessar utilizando o gcloud e kubectl estão no repositório [Dito Desafio Docs](https://github.com/hebersonaguiar/ditodesafiodocs.git)
+Para essa aplicação foram utilizados os seguintes produtos, Cloud DNS, utilizado para o apontamento DNS do domínio `ditochallenge.com` para o serviço do kubernetes e também foi utilizado o Kubernetes Engine, no qual foi criado um cluster kubernetes. Todas as informações de como criar o cluster e acessar utilizando o gcloud e kubectl estão no repositório [Dito Desafio Docs](https://github.com/hebersonaguiar/ditodesafiodocs#google-cloud-plataform)
 
 ## Jenkins X
 O Jenkins X possui os conceitos de Aplicativos e Ambientes. Você não instala o Jenkins diretamente para usar o Jenkins X, pois o Jenkins é incorporado como um mecanismo de pipeline como parte da instalação.
 
-Após a criação do cluster kubernetes na GCP utilizando o Jenkins X como informado no repositório [Dito Desafio Docs](https://github.com/hebersonaguiar/ditodesafiodocs.git) é necessário importar esse repositório para isso foi utilizado o comando abaixo:
+Após a criação do cluster kubernetes na GCP utilizando o Jenkins X como informado no repositório [Dito Desafio Docs](https://github.com/hebersonaguiar/ditodesafiodocs#jenkins-x) é necessário importar esse repositório para isso foi utilizado o comando abaixo:
 
 ```bash
 jx import --url https://github.com/hebersonaguiar/ditochatfrontend.git
@@ -76,7 +103,7 @@ jx import --no-draft --url https://github.com/hebersonaguiar/ditochatfrontend.gi
 ## Kubernetes
 Kubernetes ou como é conhecido também K8s é um produto Open Source utilizado para automatizar a implantação, o dimensionamento e o gerenciamento de aplicativos em contêiner no qual agrupa contêineres que compõem uma aplicação em unidades lógicas para facilitar o gerenciamento e a descoberta de serviço.
 
-Para essa aplicação foi utilizado o kubernetes na versão `v1.13.7-gke.24`, na Google Cloud Plataform - GCP utilizando o Google Kubernetes Engine, ou seja, a criação do cluster é realizado pela próprio GCP, nesse caso utilizamos também o Jenkins X para a criação do cluster e integração entre Jnekins X e Kubernetes. Dados de criação do cluster e acessos estão no repositório [Dito Desafio Docs](https://github.com/hebersonaguiar/ditodesafiodocs.git)
+Para essa aplicação foi utilizado o kubernetes na versão `v1.13.7-gke.24`, na Google Cloud Plataform - GCP utilizando o Google Kubernetes Engine, ou seja, a criação do cluster é realizado pela próprio GCP, nesse caso utilizamos também o Jenkins X para a criação do cluster e integração entre Jnekins X e Kubernetes. Dados de criação do cluster e acessos estão no repositório [Dito Desafio Docs](https://github.com/hebersonaguiar/ditodesafiodocs#kubernetes)
 
 Para essa aplicação foi utilizado o ConfigMap do kubernetes, que de forma simples é um conjunto de pares de chave-valor pra armazenamento de configurações, que fica armazenado dentro de arquivos que podem ser consumidos através de pods ou controllers, o configmap criado foi:
 
@@ -89,7 +116,7 @@ kubectl create configmap chat-frontend-values \
 		--namespace chatdito
 ```
 
-* Importante: Para esse repositório foi criado um namespace específco, caso já exista algum a criação do mesmo não é necessária, atente-se apenas em criar o configmap no namespace correto. O valor da variável `REACT_APP_BACKEND_WS_URL`  é um DNS válido do domínio `ditochallenge.com` e para o pleno funcionamento da aplicação é necessário o apontamento do serviço do backend na porta.
+* Importante: Para esse repositório foi criado um namespace específco, caso já exista algum a criação do mesmo não é necessária, atente-se apenas em criar o configmap no namespace correto. O valor da variável `REACT_APP_BACKEND_WS_URL`  é um DNS válido do domínio `ditochallenge.com` e para o pleno funcionamento da aplicação é necessário o apontamento do serviço do backend.
 
 ## Helm Chart
 O Helm é um gerenciador de aplicações Kubernetes cria, versiona, compartilha e publica os artefatos. Com ele é possível desenvolver templates dos arquivos YAML e durante a instalaçao de cada aplicação personalizar os parâmentros com facilidade.
@@ -99,7 +126,7 @@ Parametros alterados para essa aplicação em `chart/values.yaml`:
 ```yaml
 ...
 service:
-  name: frontend
+  name: ditochatfrontend
   type: LoadBalancer
   externalPort: 3000
   internalPort: 3000
@@ -111,11 +138,12 @@ No arquivo `chart/template/deployment.yaml` possui a variável `REACT_APP_BACKEN
 
 ## Jenkinsfile
 O Jenkisfile é um arquivo de configuração utilizado para criação de papeline no Jenkins, ele suporta três formatos diferentes: Scripted, Declarative e Groovy. 
-Para esse repositório ele foi criado na instlação do Jenkins X no cluster Kubernetes descrito no repositório [Dito Desafio Docs](https://github.com/hebersonaguiar/ditodesafiodocs.git), nele possuem alguns estágios 
+O jenkinsfile possui alguns estágios
 * Build e Push da imagem
 * Alteração do Chart e push para o Chart Museum
 * Promoção para o ambiente de produção Kubernetes
-O acionamento do deploy é executado após a execução de um commit, uma vez acionado o Jenkins X executa o Jenkinsfile e o deploy da aplicação é realizada.
+
+O acionamento do deploy é iniciado após a execução de um commit, uma vez acionado o Jenkins X executa o jenkinsfile e o fluxo CI/CD é executado.
 
 ## Skaffold
 Skaffold é uma ferramenta de linha de comando que facilita o desenvolvimento contínuo de aplicações no Kubernetes. O Skaffold lida com o fluxo de trabalho para implantar a aplicação.
