@@ -31,6 +31,7 @@ RUN chmod +x /entrypoint.sh
 COPY public /app/public
 COPY src /app/src
 
+
 ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE 3000
