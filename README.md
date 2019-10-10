@@ -135,6 +135,7 @@ service:
 * Importante:
 No arquivo `chart/template/deployment.yaml` possui a variável `REACT_APP_BACKEND_WS_URL`  que foi informadas no tópico [Entrypoint](https://github.com/hebersonaguiar/ditochatbackend#entrypoint). Para que ela seja informada para o contêiner no cluster kubernetes foi criado um [configmap](https://github.com/hebersonaguiar/ditochatfrontend#kubernetes) no Kubernetes com o nome `chat-frontend-values`, sua execução foi informada anteriormente no tópico [Kubernetes](https://github.com/hebersonaguiar/ditochatfrontend#kubernetes).
 
+
 ## Jenkinsfile
 O Jenkisfile é um arquivo de configuração utilizado para criação de papeline no Jenkins, ele suporta três formatos diferentes: Scripted, Declarative e Groovy. 
 O jenkinsfile possui alguns estágios
