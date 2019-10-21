@@ -12,7 +12,7 @@ class Login extends Component {
 
   login() {
     const name = this.refs.input.value.trim();
-    this.auth.authenticate(name || "Convidado");
+    this.auth.authenticate(name || "Guest");
     this.setState({ isAuthenticated: true });
   }
 
@@ -34,7 +34,7 @@ class Login extends Component {
         <input
           autoFocus
           type="text"
-          placeholder="Convidado"
+          placeholder="Guest"
           ref="input"
           onKeyPress={({ key }) => key === 'Enter' && this.login()}
         />
